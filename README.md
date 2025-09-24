@@ -15,7 +15,7 @@ O serviço de Atendimento Médico Emergencial envolve várias etapas:
 - Armazenar ID e nome
 
 ## TADs
-Cada um de seus TAds pilha, fila e lista teriam um par de métodos que escreveriam para o disco e leriam do disco.
+Cada um dos TAds pilha, fila e lista devem ter um par de métodos que escrevem para o disco e ler do disco.
 
 ### 1. Lista: Relação de Pacientes
 O Hospital deve manter a lista de pacientes atendidos do PS, essa lista deve ter o paciente e seu histórico de tratamento
