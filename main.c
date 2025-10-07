@@ -1,28 +1,48 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define TAM_NOME 101
+
+typedef struct paciente_ {
+    char nome[TAM_NOME];
+    int ID;
+   // PILHA* historico; // fazer TAD pilha e colocar um include ne
+} PACIENTE;
+
 int menu();
+void registrar_paciente();
+void registrar_obito();
+void adicionar_procedimento_paciente();
+void desfazer_procedimento_paciente();
+void chamar_paciente_atendimento();
+void mostrar_fila_de_espera();
+void mostrar_historico_paciente();
 
 int main () {
     int acao;
-    while (true) { // falta abrir arquivo de histórico
+    // precisa abrir o arquivo do banco de dados, e quando isso acontecer, colocar o banco de dados numa lista encadeada
+    // como LISTA* registro = criar_lista();
+    // ai depois if(LOAD(**)
+    while (true) {
         acao = menu();
         switch (acao) {
-            case 1: 
+            case 1: registrar_paciente();
                 break;
-            case 2: 
+            case 2: registrar_obito();
                 break;
-            case 3: 
+            case 3: adicionar_procedimento_paciente();
                 break;
-            case 4: 
+            case 4: desfazer_procedimento_paciente();
                 break;
-            case 5: 
+            case 5: chamar_paciente_atendimento();
                 break;
-            case 6: 
+            case 6: mostrar_fila_de_espera();
                 break;
-            case 7: 
+            case 7: mostrar_historico_paciente();
                 break;
-            case 8: 
+            case 8:
+                printf("\nSaindo do programa...\n");
+                // precisa salvar na memória
                 return 0;
                 break;
             default:
@@ -45,3 +65,14 @@ int menu(){
     scanf(" %d", &aux);
     return aux;
 }
+
+void registrar_paciente() {
+
+}
+
+void registrar_obito();
+void adicionar_procedimento_paciente();
+void desfazer_procedimento_paciente();
+void chamar_paciente_atendimento();
+void mostrar_fila_de_espera();
+void mostrar_historico_paciente();
