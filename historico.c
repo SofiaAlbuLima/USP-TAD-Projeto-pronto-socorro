@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include "historico.h"
+
+typedef struct historico {
+    PROCEDIMENTO* procedimentos[MAX_PROCEDIMENTOS];
+    int tamanho;
+} HISTORICO;
+
+typedef struct procedimento {
+    char descricao[MAX_DESCRICAO];
+    struct procedimento* prox;
+} PROCEDIMENTO;
+
+    HISTORICO* criar_historico(void){
+        HISTORICO* h = (HISTORICO*) malloc(sizeof(HISTORICO));
+
+        if(h != NULL){
+            h->tamanho = 0;
+            for(int i = 0; i < MAX_PROCEDIMENTOS; i++){ // Inicializa todas as posições como NULL
+                h->procedimentos[i] = NULL;
+            }
+        }
+        return h;
+    }
+
+    bool historico_vazio(HISTORICO* h){
+        if(h != NULL){
+            return((h->tamanho ==0) ? true : false);
+            return false;
+        }
+    }
+
+    bool historico_cheio(HISTORICO* h){
+        if(h != NULL){
+            return((h->tamanho == MAX_PROCEDIMENTOS) ? true : false);
+            return false;
+        }
+    }
+
+    int pilha_tamanho(HISTORICO* h){
+        return ((h != NULL) ? h->tamanho : -1);
+    }
+
+    bool inserir_procedimento(HISTORICO* h, PROCEDIMENTO* p){
+        if(h != NULL && p != NULL && !historico_cheio(h)){
+            h->procedimentos[h->tamanho] = p;
+            h->tamanho++;
+            return true;
+        }
+        return false;
+    }
+
+    PROCEDIMENTO* desfazer_procedimento(HISTORICO* h){
+        PROCEDIMENTO* i;
+        if(h != NULL && !historico_vazio(h)){
+            h->tamanho--;
+            i = h->procedimentos[h->tamanho];
+            h->procedimentos[h->tamanho] = NULL;
+            return i;
+        }
+        return NULL;
+    }
+
+    void consultar_historico(HISTORICO* h){
+        if(h != NULL && !historico_vazio(h)){
+            printf("Historico de procedimentos:\n");
+            for(int i = h->tamanho - 1; i >= 0; i--){
+                printf("- %s\n", h->procedimentos[i]->descricao);
+            }
+        } else {
+            printf("Historico vazio.\n");
+        }
+    }
