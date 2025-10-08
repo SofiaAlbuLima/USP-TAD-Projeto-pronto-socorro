@@ -10,7 +10,7 @@ typedef struct procedimento {
     char descricao[MAX_DESCRICAO];
 } PROCEDIMENTO;
 
-    HISTORICO* criar_historico(void){
+    HISTORICO* historico_criar(void){
         HISTORICO* h = (HISTORICO*) malloc(sizeof(HISTORICO));
 
         if(h != NULL){
@@ -36,7 +36,7 @@ typedef struct procedimento {
         }
     }
 
-    int pilha_tamanho(HISTORICO* h){
+    int historico_tamanho(HISTORICO* h){
         return ((h != NULL) ? h->tamanho : -1);
     }
 
@@ -60,7 +60,7 @@ typedef struct procedimento {
         return NULL;
     }
 
-    void consultar_historico(HISTORICO* h){
+    void historico_consultar(HISTORICO* h){
         if(h != NULL && !historico_vazio(h)){
             printf("Historico de procedimentos:\n");
             for(int i = h->tamanho - 1; i >= 0; i--){

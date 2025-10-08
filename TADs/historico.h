@@ -14,7 +14,7 @@
 
     bool historico_vazio(HISTORICO* h);
     bool historico_cheio(HISTORICO* h);
-    int pilha_tamanho(HISTORICO* h);
+    int historico_tamanho(HISTORICO* h);
 
     bool inserir_procedimento(HISTORICO* h, PROCEDIMENTO* p);
     PROCEDIMENTO* desfazer_procedimento(HISTORICO* h);
