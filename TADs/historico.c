@@ -73,8 +73,8 @@ typedef struct procedimento {
 
     void historico_apagar(HISTORICO** h){
         if(h != NULL && h != NULL){
-            for(int i = 0; i < (h)->tamanho; i++){
-                free((h)->procedimentos[i]);
+            for(int i = 0; i < (*h)->tamanho; i++){
+                free((*h)->procedimentos[i]);
             }
             free(h);
             *h = NULL;
