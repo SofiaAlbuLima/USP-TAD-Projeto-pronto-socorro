@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "paciente.h"
+#include "historico.h"
 
 #define TAM_NOME 101
 
@@ -26,10 +27,12 @@ PACIENTE* paciente_criar(char string[], int i) {
 
 bool paciente_apagar(PACIENTE** aux) {
     if (aux!=NULL) {
-        if(*aux!=NULL){
-            free(*aux);  // aqui ainda tá errado, eu acho, porque tem que liberar a memória do histórico tbm com o histórico_apagar
-            *aux = NULL;
-            return true;
+        if(*aux!=NULL) {
+            if(historico_apagar(&((*aux)->procedimentos)) == true){
+                free(*aux);
+                *aux = NULL;
+                return true;
+            }
         }
     }
     return false;
@@ -59,10 +62,18 @@ void paciente_consultar_historico(PACIENTE* aux) {
     if(aux!=NULL) historico_consultar(aux->procedimentos);
 }
 
-bool paciente_adicionar_procedimento(PACIENTE* aux, HISTORICO ) {
-    inserir_procedimento() // falta pensar como receber os parâmetros dessa função
+bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento) {
+    if (aux != NULL) {
+        inserir_procedimento(aux->procedimentos, procedimento);
+        return true;    
+    }
+    return false;
 }
 
-bool paciente_desfazer_procedimento(PACIENTE* aux) {
-
+PROCEDIMENTO* paciente_desfazer_procedimento(PACIENTE* aux) {
+    if(aux != NULL) {
+        PROCEDIMENTO* p = desfazer_procedimento(aux->procedimentos);
+        return p;
+    }
+    return NULL;
 }
