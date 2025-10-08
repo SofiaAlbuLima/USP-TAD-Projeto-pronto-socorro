@@ -10,7 +10,7 @@
     #define MAX_DESCRICAO 101
 
     HISTORICO* historico_criar();
-    void historico_apagar(HISTORICO** h);
+    bool historico_apagar(HISTORICO** h);
 
     bool historico_vazio(HISTORICO* h);
     bool historico_cheio(HISTORICO* h);
