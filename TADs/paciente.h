@@ -12,6 +12,6 @@
 	int paciente_obter_ID(PACIENTE* aux);
     void paciente_imprimir_nome(PACIENTE* aux);
     void paciente_consultar_historico(PACIENTE* aux);
-	bool paciente_adicionar_procedimento(PACIENTE* aux); // do histórico médico
+	bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento); // do histórico médico
     PROCEDIMENTO* paciente_desfazer_procedimento(PACIENTE* aux); // do histórico médico
 #endif
