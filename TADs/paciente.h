@@ -3,6 +3,8 @@
 
 	#include "historico.h"
 	#include <stdbool.h>
+	
+	#define TAM_NOME 101
 
 	typedef struct paciente_ PACIENTE;
 

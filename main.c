@@ -1,14 +1,16 @@
+/* TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS
+Alunos:
+João Pedro Boaretto, nUSP: 
+Lorena Borges, nUSP: 16883652
+Sofia Lima, nUSP: 
+*/
+
 #include <stdio.h>
 #include <stdbool.h>
-#include "historico.h"
-
+#include "historico.h" // não sei se o include vai funcionar da forma que está, porque o historico.h está em outro diretório
+                       // e tem que dar include nos outros TADs também, talvez quando acabarmos todos.FAltam: fila de espera,
+                       // banco de dados e o TAD IO, de persistẽncia dos dados
 #define TAM_NOME 101
-
-typedef struct paciente_ {
-    char nome[TAM_NOME];
-    int ID;
-   // PILHA* historico; // fazer TAD pilha e colocar um include ne
-} PACIENTE;
 
 int menu();
 void registrar_paciente();

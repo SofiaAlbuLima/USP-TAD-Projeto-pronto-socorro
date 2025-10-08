@@ -3,8 +3,6 @@
 #include "paciente.h"
 #include "historico.h"
 
-#define TAM_NOME 101
-
 struct paciente_ {
     char nome[TAM_NOME];
     int id;
