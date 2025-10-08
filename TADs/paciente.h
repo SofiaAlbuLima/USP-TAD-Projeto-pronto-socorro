@@ -5,7 +5,7 @@
 
 	typedef struct paciente_ PACIENTE;
 
-	PACIENTE* paciente_criar(PACIENTE paciente);
+	PACIENTE* paciente_criar(char nome[], int i, );
 	bool paciente_apagar();
 	void paciente_imprimir();
 	int paciente_obter_ID();

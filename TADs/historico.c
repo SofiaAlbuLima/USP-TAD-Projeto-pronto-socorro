@@ -8,7 +8,6 @@ typedef struct historico {
 
 typedef struct procedimento {
     char descricao[MAX_DESCRICAO];
-    struct procedimento* prox;
 } PROCEDIMENTO;
 
     HISTORICO* criar_historico(void){
@@ -69,5 +68,15 @@ typedef struct procedimento {
             }
         } else {
             printf("Historico vazio.\n");
+        }
+    }
+
+    void historico_apagar(HISTORICO** h){
+        if(h != NULL && h != NULL){
+            for(int i = 0; i < (h)->tamanho; i++){
+                free((h)->procedimentos[i]);
+            }
+            free(h);
+            *h = NULL;
         }
     }
