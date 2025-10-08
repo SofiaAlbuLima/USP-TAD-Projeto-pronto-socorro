@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include "historico.h"
 
 #define TAM_NOME 101
 
@@ -16,13 +17,14 @@ void adicionar_procedimento_paciente();
 void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
-void mostrar_historico_paciente();
 
 int main () {
     int acao;
     // precisa abrir o arquivo do banco de dados, e quando isso acontecer, colocar o banco de dados numa lista encadeada
     // como LISTA* registro = criar_lista();
     // ai depois if(LOAD(**)
+    HISTORICO* H;
+    
     while (true) {
         acao = menu();
         switch (acao) {
@@ -38,7 +40,7 @@ int main () {
                 break;
             case 6: mostrar_fila_de_espera();
                 break;
-            case 7: mostrar_historico_paciente();
+            case 7: consultar_historico(H);
                 break;
             case 8:
                 printf("\nSaindo do programa...\n");

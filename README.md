@@ -33,9 +33,10 @@ Ao dar entrada na Emergência, um paciente, já registrado ou não no hospital, 
 
 ### 3. Pilha: Histórico médico do Paciente
 A quantidade de procedimentos para cada paciente é de, no máximo, 10. O histórico é simplesmente um texto de, no máximo 100 caracteres. Reportar caso o paciente não for encontrado ou não houver procedimento a desfazer
-- Inserir (Adicionar pelo ID, localizar o registro e inserir se o histórico não estiver cheio)
-- Retirar (Desfazer e informar o procedimento desfeito se o histórico não estiver vazio)
-- Consultar
+- Criar histórico
+- Inserir procedimento (Adicionar pelo ID, localizar o registro e inserir se o histórico não estiver cheio)
+- Retirar procedimento (Desfazer e informar o procedimento desfeito se o histórico não estiver vazio)
+- Consultar histórico
 - Histórico Cheio
 - Histórico Vazio
 
