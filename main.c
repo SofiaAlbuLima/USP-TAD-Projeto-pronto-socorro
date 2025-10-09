@@ -101,26 +101,28 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
     scanf(" %[^\n]s", nome);
     printf("Digite o ID do paciente (numero inteiro): ");
     scanf(" %d", &ID);
-
+    
     if(paciente_buscar(registro, ID) != NULL){
-        printf("\nID ja existente. Tente novamente.\n");
-        return;
+        if(fila_buscar(fila, ID)){
+            printf("\nPaciente ja esta na fila de espera.\n");
+            return;
+        } else {
+            printf("\nID ja existente. Colocando na fila.\n");
+        }
     }else{
         PACIENTE* p = paciente_criar(nome, ID);
         bool cadastro = paciente_cadastrar(registro, p);
         if(!cadastro){
             printf("\nErro no cadastro do paciente. Tente novamente.\n");
-            return;
-        }else{
-            bool espera = fila_inserir(fila, p);
-            if(!espera){
-                printf("\nFila cheia. Paciente nao cadastrado na fila de espera.\n");
-            }else{
-                printf("\nPaciente registrado com sucesso!\n");
-            }
-            return;
         }
     }
+    bool espera = fila_inserir(fila, paciente_buscar(registro, ID));
+    if(!espera){
+        printf("\nFila cheia. Paciente nao cadastrado na fila de espera.\n");
+    }else{
+        printf("\nPaciente registrado com sucesso!\n");
+    }
+    return;
 }
 
 void registrar_obito() {
@@ -245,17 +247,21 @@ void chamar_paciente_atendimento() {
         return;
     } else {
         printf("\nPaciente %s (ID: %d) chamado para atendimento.\n", paciente_obter_nome(atendido), paciente_obter_ID(atendido));
-        printf("O proximo Paciente: %s (ID: %d).\n", paciente_obter_nome(fila_proximo_atender(fila)), paciente_obter_ID(fila_proximo_atender(fila)));
+        printf("O proximo Paciente: %s (ID: %d).\n", (fila_proximo_atender(fila) == NULL) ? "Sem proximo paciente" : paciente_obter_nome(fila_proximo_atender(fila)), paciente_obter_ID(fila_proximo_atender(fila)));
         return;
     }
 }
 
 void mostrar_fila_de_espera() {
     if (fila != NULL) {
-        printf("Fila de espera atual:\n");
+        if (fila_vazia(fila)) {
+            printf("\nFila de espera vazia.\n");
+            return;
+        }
+        printf("\nFila de espera atual:\n");
         fila_imprimir(fila);
     } else {
-        printf("Fila nao existe.\n");
+        printf("\nFila nao existe.\n");
     }
 }
 
