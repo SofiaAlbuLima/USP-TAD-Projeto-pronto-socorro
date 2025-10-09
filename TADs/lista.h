@@ -10,7 +10,7 @@
 
     LISTA* lista_criar();
 
-    bool paciente_cadastrar(); //lista inserir
+    bool paciente_cadastrar(LISTA* l, PACIENTE* p); //lista inserir
     PACIENTE* obito_registrar(LISTA* l, int chave); //lista remover
     PACIENTE* paciente_buscar(LISTA* l, int chave); //lista buscar
     void pacientes_listar(LISTA* l); //lista imprimir

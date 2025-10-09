@@ -1,6 +1,7 @@
 // escolhemos uma aplicação sequencial, visto que a quantidade máxima de históricos é pequena e é mais simples de ser implementado
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "historico.h"
 
 typedef struct historico {

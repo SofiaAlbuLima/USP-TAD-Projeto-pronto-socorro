@@ -3,6 +3,8 @@ do problema, há apenas uma fila de espera, então não consome tanta memória c
 escolhemos uma implementação circular para melhorar a sua eficiência, ao evitar a necessidade do deslocamento
 do vetor inteiro toda vez que alguém saísse da fila.
 */
+#include <stdio.h>
+#include <stdlib.h>
 #include "fila.h"
 
 struct fila_ {
