@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "historico.h"
 
 typedef struct historico {
@@ -26,7 +27,7 @@ HISTORICO* historico_criar(void){
 }
 
 bool historico_apagar(HISTORICO** h){
-    if(h != NULL && h != NULL){
+    if(h != NULL && *h != NULL){
         for(int i = 0; i < (*h)->tamanho; i++){
             free((*h)->procedimentos[i]);
         }

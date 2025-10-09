@@ -1,7 +1,7 @@
-/* TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS
+﻿/* TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS
 
 Alunos:
-João Pedro Boaretto, nUSP:  16876293
+JoÃ£o Pedro Boaretto, nUSP:  16876293
 Lorena Borges, nUSP: 16883652
 Sofia Albuquerque Lima, nUSP: 16900810
 
@@ -12,7 +12,8 @@ Sofia Albuquerque Lima, nUSP: 16900810
 
 #include "./TADs/lista.h"
 #include "./TADs/fila.h"
-                       // banco de dados e o TAD IO, de persistẽncia dos dados
+#include "./TADs/IO.h"
+
 #define TAM_NOME 101
 
 int menu();
@@ -24,16 +25,32 @@ void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
 void mostrar_historico_paciente(HISTORICO* H);
 
-/* Variáveis globais para funções auxiliares simples */
+/* VariÃ¡veis globais para funÃ§Ãµes auxiliares simples */
 LISTA* registro;
 FILA* fila;
 HISTORICO* H;
 
 int main () {
     int acao;
-    // precisa abrir o arquivo do banco de dados, e quando isso acontecer, colocar o banco de dados numa lista encadeada
-    registro = lista_criar();
-    fila = fila_criar();
+    registro = NULL;
+    fila = NULL;
+
+    if (!LOAD(&registro, &fila)) {
+        printf("Falha ao carregar os dados. Iniciando estruturas vazias.\n");
+    }
+
+    if (registro == NULL) {
+        registro = lista_criar();
+    }
+    if (fila == NULL) {
+        fila = fila_criar();
+    }
+
+    if (registro == NULL || fila == NULL) {
+        printf("Erro ao inicializar estruturas principais.\n");
+        return 1;
+    }
+
     H = NULL;
     
     while (true) {
@@ -53,13 +70,20 @@ int main () {
                 break;
             case 7: mostrar_historico_paciente(H);
                 break;
-            case 8:
-                printf("\nSaindo do programa...\n");
-                // precisa salvar na memória
+            case 8: {
+                printf("\nSalvando dados e encerrando o programa...\n");
+                if (SAVE(registro, fila)) {
+                    printf("Dados salvos com sucesso.\n");
+                } else {
+                    printf("Falha ao salvar os dados. Verifique o armazenamento.\n");
+                }
+                lista_destruir(registro);
+                registro = NULL;
+                fila_apagar(&fila);
                 return 0;
-                break;
+            }
             default:
-                printf("\nFuncionalidade inexistente. Escolha entre as opções abaixo:\n");
+                printf("\nFuncionalidade inexistente. Escolha entre as opÃ§Ãµes abaixo:\n");
         }
     }
     return 0;
@@ -70,7 +94,7 @@ int menu(){
     printf("\n[1] Registrar paciente\n");
     printf("[2] Registrar obito de paciente\n");
     printf("[3] Adicionar procedimento ao historico medico\n");
-    printf("[4] Desfazer procedimento do histórico medico\n");
+    printf("[4] Desfazer procedimento do historico medico\n");
     printf("[5] Chamar paciente para atendimento\n");
     printf("[6] Mostrar fila de espera\n");
     printf("[7] Mostrar historico do paciente\n");
@@ -99,7 +123,7 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
         }else{
             bool espera = fila_inserir(fila, p);
             if(!espera){
-                printf("\nFila cheia. Paciente não cadastrado na fila de espera.\n");
+                printf("\nFila cheia. Paciente nÃ£o cadastrado na fila de espera.\n");
             }else{
                 printf("\nPaciente registrado com sucesso!\n");
             }
@@ -113,7 +137,7 @@ void adicionar_procedimento_paciente();
 void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 
-/* Implementações simples para evitar erro de link */
+/* ImplementaÃ§Ãµes simples para evitar erro de link */
 void mostrar_fila_de_espera() {
     if (fila != NULL) {
         fila_imprimir(fila);
@@ -130,7 +154,7 @@ void mostrar_historico_paciente(HISTORICO* H_local) {
     }
 }
 
-/* Stubs simples para funcionalidades ainda não implementadas */
+/* Stubs simples para funcionalidades ainda nÃ£o implementadas */
 void registrar_obito() {
     printf("Funcao registrar_obito ainda nao implementada.\n");
 }

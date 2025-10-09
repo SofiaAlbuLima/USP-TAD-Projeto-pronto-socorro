@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "IO.h"
 
 bool SAVE(LISTA *lista, FILA *fila) {
     FILE* arquivo = fopen("hospital_data.bin", "wb");
     if (arquivo == NULL) {
-        perror("Erro ao abrir arquivo para salvar os dados");
+        printf("Erro ao abrir arquivo para salvar os dados");
         return false;
     }
 
@@ -14,7 +15,7 @@ bool SAVE(LISTA *lista, FILA *fila) {
     fwrite(&n_pacientes_lista, sizeof(int), 1, arquivo);
 
     for (int i = 0; i < n_pacientes_lista; i++) {
-        PACIENTE* p = lista_obter_paciente_na_posicao(lista, i);
+        PACIENTE* p = listar_pacientes_por_posicao(lista, i);
         
         int id = paciente_obter_ID(p);
         char* nome = paciente_obter_nome(p);
@@ -27,7 +28,7 @@ bool SAVE(LISTA *lista, FILA *fila) {
         fwrite(&total_procedimentos, sizeof(int), 1, arquivo);
 
         for (int j = 0; j < total_procedimentos; j++) {
-            PROCEDIMENTO* proc = historico_obter_procedimento_na_posicao(h, j);
+            PROCEDIMENTO* proc = historico_obter_procedimento_por_posicao(h, j);
             fwrite(proc, sizeof(PROCEDIMENTO*), 1, arquivo);
         }
     }
