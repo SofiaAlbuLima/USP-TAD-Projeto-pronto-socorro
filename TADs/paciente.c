@@ -75,10 +75,15 @@ void paciente_consultar_historico(PACIENTE* aux) {
 }
 
 bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento) {
-    if (aux != NULL) {
-        inserir_procedimento(aux->procedimentos, procedimento);
-        return true;    
+    if (aux == NULL || procedimento == NULL) {
+        return false;
     }
+
+    if (inserir_procedimento(aux->procedimentos, procedimento)) {
+        return true;
+    }
+
+    free(procedimento);
     return false;
 }
 

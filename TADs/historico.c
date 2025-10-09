@@ -31,7 +31,7 @@ bool historico_apagar(HISTORICO** h){
         for(int i = 0; i < (*h)->tamanho; i++){
             free((*h)->procedimentos[i]);
         }
-        free(h);
+        free(*h);
         *h = NULL;
         return true;
     }
@@ -39,17 +39,17 @@ bool historico_apagar(HISTORICO** h){
 }
 
 bool historico_vazio(HISTORICO* h){
-    if(h != NULL){
-        return((h->tamanho ==0) ? true : false);
-        return false;
+    if(h == NULL){
+        return true;
     }
+    return (h->tamanho == 0);
 }
 
 bool historico_cheio(HISTORICO* h){
-    if(h != NULL){
-        return((h->tamanho == MAX_PROCEDIMENTOS) ? true : false);
+    if(h == NULL){
         return false;
     }
+    return (h->tamanho == MAX_PROCEDIMENTOS);
 }
 
 int historico_tamanho(HISTORICO* h){
@@ -92,5 +92,27 @@ PROCEDIMENTO* historico_obter_procedimento_por_posicao(HISTORICO* h, int pos){
         return NULL;
     }
     return h->procedimentos[pos];
+}
+
+PROCEDIMENTO* procedimento_criar(const char descricao[]) {
+    if (descricao == NULL) {
+        return NULL;
+    }
+
+    PROCEDIMENTO* procedimento = (PROCEDIMENTO*) malloc(sizeof(PROCEDIMENTO));
+    if (procedimento == NULL) {
+        return NULL;
+    }
+
+    strncpy(procedimento->descricao, descricao, MAX_DESCRICAO - 1);
+    procedimento->descricao[MAX_DESCRICAO - 1] = '\0';
+    return procedimento;
+}
+
+const char* procedimento_obter_descricao(PROCEDIMENTO* procedimento) {
+    if (procedimento == NULL) {
+        return NULL;
+    }
+    return procedimento->descricao;
 }
 

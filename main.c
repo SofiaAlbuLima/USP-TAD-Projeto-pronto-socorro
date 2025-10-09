@@ -1,13 +1,14 @@
 ﻿/* TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS
 
 Alunos:
-JoÃ£o Pedro Boaretto, nUSP:  16876293
+João Pedro Boaretto, nUSP:  16876293
 Lorena Borges, nUSP: 16883652
 Sofia Albuquerque Lima, nUSP: 16900810
 
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include "./TADs/lista.h"
@@ -19,16 +20,15 @@ Sofia Albuquerque Lima, nUSP: 16900810
 int menu();
 void registrar_paciente(LISTA* registro, FILA* fila);
 void registrar_obito();
-void adicionar_procedimento_paciente();
+void adicionar_procedimento_paciente(LISTA* registro);
 void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
-void mostrar_historico_paciente(HISTORICO* H);
+void mostrar_historico_paciente();
 void sair();
 
 LISTA* registro;
 FILA* fila;
-HISTORICO* H;
 
 int main () {
     int acao;
@@ -51,7 +51,6 @@ int main () {
         return 1;
     }
 
-    H = NULL;
     
     while (true) {
         acao = menu();
@@ -60,7 +59,7 @@ int main () {
                 break;
             case 2: registrar_obito();
                 break;
-            case 3: adicionar_procedimento_paciente();
+            case 3: adicionar_procedimento_paciente(registro);
                 break;
             case 4: desfazer_procedimento_paciente();
                 break;
@@ -68,11 +67,13 @@ int main () {
                 break;
             case 6: mostrar_fila_de_espera();
                 break;
-            case 7: mostrar_historico_paciente(H);
+            case 7: mostrar_historico_paciente();
                 break;
-            case 8: sair();
+            case 8:
+                sair();
+                return 0;
             default:
-                printf("\nFuncionalidade inexistente. Escolha entre as opÃ§Ãµes abaixo:\n");
+                printf("\nFuncionalidade inexistente. Escolha entre as opcoes abaixo:\n");
         }
     }
     return 0;
@@ -112,7 +113,7 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
         }else{
             bool espera = fila_inserir(fila, p);
             if(!espera){
-                printf("\nFila cheia. Paciente nÃ£o cadastrado na fila de espera.\n");
+                printf("\nFila cheia. Paciente nao cadastrado na fila de espera.\n");
             }else{
                 printf("\nPaciente registrado com sucesso!\n");
             }
@@ -125,12 +126,96 @@ void registrar_obito() {
     printf("Funcao registrar_obito ainda nao implementada.\n");
 }
 
-void adicionar_procedimento_paciente() {
-    printf("Funcao adicionar_procedimento_paciente ainda nao implementada.\n");
+void adicionar_procedimento_paciente(LISTA* registro) {
+    if (registro == NULL) {
+        printf("Registro de pacientes indisponivel.\n");
+        return;
+    }
+
+    int id_paciente;
+    printf("Digite o ID do paciente: ");
+    if (scanf(" %d", &id_paciente) != 1) {
+        printf("Entrada invalida para ID.\n");
+        return;
+    }
+
+    PACIENTE* paciente = paciente_buscar(registro, id_paciente);
+    if (paciente == NULL) {
+        printf("Paciente com ID %d nao encontrado.\n", id_paciente);
+        return;
+    }
+
+    HISTORICO* historico = paciente_obter_historico(paciente);
+    if (historico == NULL) {
+        printf("Historico do paciente nao disponivel.\n");
+        return;
+    }
+
+    if (historico_cheio(historico)) {
+        printf("Historico do paciente esta cheio. Nao e possivel adicionar novos procedimentos.\n");
+        return;
+    }
+
+    char descricao[MAX_DESCRICAO];
+    printf("Descricao do procedimento (maximo de %d caracteres): ", MAX_DESCRICAO - 1);
+    if (scanf(" %100[^\n]", descricao) != 1) {
+        printf("Descricao invalida.\n");
+        return;
+    }
+
+    PROCEDIMENTO* procedimento = procedimento_criar(descricao);
+    if (procedimento == NULL) {
+        printf("Nao foi possivel registrar o procedimento.\n");
+        return;
+    }
+
+    if (!paciente_adicionar_procedimento(paciente, procedimento)) {
+        printf("Erro ao adicionar procedimento ao historico do paciente.\n");
+        return;
+    }
+
+    printf("Procedimento adicionado com sucesso ao paciente %d.\n", id_paciente);
 }
 
 void desfazer_procedimento_paciente() {
-    printf("Funcao desfazer_procedimento_paciente ainda nao implementada.\n");
+    if (registro == NULL) {
+        printf("Registro de pacientes indisponivel.\n");
+        return;
+    }
+
+    int id_paciente;
+    printf("Digite o ID do paciente: ");
+    if (scanf(" %d", &id_paciente) != 1) {
+        printf("Entrada invalida para ID.\n");
+        return;
+    }
+
+    PACIENTE* paciente = paciente_buscar(registro, id_paciente);
+    if (paciente == NULL) {
+        printf("Paciente com ID %d nao encontrado.\n", id_paciente);
+        return;
+    }
+
+    HISTORICO* historico = paciente_obter_historico(paciente);
+    if (historico == NULL) {
+        printf("Historico do paciente nao disponivel.\n");
+        return;
+    }
+
+    if (historico_vazio(historico)) {
+        printf("Historico do paciente nao possui procedimentos para desfazer.\n");
+        return;
+    }
+
+    PROCEDIMENTO* procedimento = paciente_desfazer_procedimento(paciente);
+    if (procedimento == NULL) {
+        printf("Nao foi possivel desfazer o ultimo procedimento.\n");
+        return;
+    }
+
+    const char* descricao = procedimento_obter_descricao(procedimento);
+    printf("Procedimento removido: %s\n", (descricao != NULL) ? descricao : "(descricao indisponivel)");
+    free(procedimento);
 }
 
 void chamar_paciente_atendimento() {
@@ -145,12 +230,8 @@ void mostrar_fila_de_espera() {
     }
 }
 
-void mostrar_historico_paciente(HISTORICO* H_local) {
-    if (H_local != NULL) {
-        historico_consultar(H_local);
-    } else {
-        printf("Historico nao disponivel.\n");
-    }
+void mostrar_historico_paciente() {
+    
 }
 
 void sair(){
