@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "stdio.h": "c",
-        "historico.h": "c"
+        "stdbool.h": "c",
+        "stdio.h": "c"
     }
 }
