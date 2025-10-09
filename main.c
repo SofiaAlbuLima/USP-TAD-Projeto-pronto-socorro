@@ -24,8 +24,8 @@ void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
 void mostrar_historico_paciente(HISTORICO* H);
+void sair();
 
-/* VariÃ¡veis globais para funÃ§Ãµes auxiliares simples */
 LISTA* registro;
 FILA* fila;
 HISTORICO* H;
@@ -70,18 +70,7 @@ int main () {
                 break;
             case 7: mostrar_historico_paciente(H);
                 break;
-            case 8: {
-                printf("\nSalvando dados e encerrando o programa...\n");
-                if (SAVE(registro, fila)) {
-                    printf("Dados salvos com sucesso.\n");
-                } else {
-                    printf("Falha ao salvar os dados. Verifique o armazenamento.\n");
-                }
-                lista_destruir(registro);
-                registro = NULL;
-                fila_apagar(&fila);
-                return 0;
-            }
+            case 8: sair();
             default:
                 printf("\nFuncionalidade inexistente. Escolha entre as opÃ§Ãµes abaixo:\n");
         }
@@ -132,12 +121,22 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
     }
 }
 
-void registrar_obito();
-void adicionar_procedimento_paciente();
-void desfazer_procedimento_paciente();
-void chamar_paciente_atendimento();
+void registrar_obito() {
+    printf("Funcao registrar_obito ainda nao implementada.\n");
+}
 
-/* ImplementaÃ§Ãµes simples para evitar erro de link */
+void adicionar_procedimento_paciente() {
+    printf("Funcao adicionar_procedimento_paciente ainda nao implementada.\n");
+}
+
+void desfazer_procedimento_paciente() {
+    printf("Funcao desfazer_procedimento_paciente ainda nao implementada.\n");
+}
+
+void chamar_paciente_atendimento() {
+    printf("Funcao chamar_paciente_atendimento ainda nao implementada.\n");
+}
+
 void mostrar_fila_de_espera() {
     if (fila != NULL) {
         fila_imprimir(fila);
@@ -154,19 +153,15 @@ void mostrar_historico_paciente(HISTORICO* H_local) {
     }
 }
 
-/* Stubs simples para funcionalidades ainda nÃ£o implementadas */
-void registrar_obito() {
-    printf("Funcao registrar_obito ainda nao implementada.\n");
-}
-
-void adicionar_procedimento_paciente() {
-    printf("Funcao adicionar_procedimento_paciente ainda nao implementada.\n");
-}
-
-void desfazer_procedimento_paciente() {
-    printf("Funcao desfazer_procedimento_paciente ainda nao implementada.\n");
-}
-
-void chamar_paciente_atendimento() {
-    printf("Funcao chamar_paciente_atendimento ainda nao implementada.\n");
+void sair(){
+    printf("\nSalvando dados e encerrando o programa...\n");
+        if (SAVE(registro, fila)) {
+            printf("Dados salvos com sucesso.\n");
+        } else {
+            printf("Falha ao salvar os dados. Verifique o armazenamento.\n");
+        }
+        lista_destruir(registro);
+        registro = NULL;
+        fila_apagar(&fila);
+        return;
 }
