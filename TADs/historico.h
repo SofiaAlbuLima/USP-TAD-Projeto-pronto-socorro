@@ -20,4 +20,5 @@
     PROCEDIMENTO* desfazer_procedimento(HISTORICO* h);
 
     void historico_consultar(HISTORICO* h); 
+    PROCEDIMENTO* historico_obter_procedimento_por_posicao(HISTORICO* h, int pos);
 #endif

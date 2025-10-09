@@ -22,7 +22,7 @@ LISTA* lista_criar(){
 }
 
 
-void paciente_cadastrar(LISTA* l, PACIENTE* p){
+bool paciente_cadastrar(LISTA* l, PACIENTE* p){
     if((!lista_cheia(l)) && (l != NULL)){
         NO* pnovo = (NO*) malloc(sizeof(NO));
         pnovo->paciente = p;
@@ -40,18 +40,6 @@ void paciente_cadastrar(LISTA* l, PACIENTE* p){
     }else{
         return false;
     }
-}
-PACIENTE* paciente_buscar(LISTA* l, int chave){
-    if((l != NULL) && (l->tamanho > 0)){
-        NO* p = l->inicio;
-        while(p != NULL){
-            if(paciente_obter_ID(p->paciente) == chave){
-                return p->paciente;
-            }
-            p = p->prox;
-        }
-    }
-    return NULL;
 }
 PACIENTE* obito_registrar(LISTA* l, int chave){
     if (l != NULL){
@@ -79,7 +67,19 @@ PACIENTE* obito_registrar(LISTA* l, int chave){
     }
     return (NULL);
 }
-void pacientes_listar(LISTA* l){
+PACIENTE* paciente_buscar(LISTA* l, int chave){
+    if((l != NULL) && (l->tamanho > 0)){
+        NO* p = l->inicio;
+        while(p != NULL){
+            if(paciente_obter_ID(p->paciente) == chave){
+                return p->paciente;
+            }
+            p = p->prox;
+        }
+    }
+    return NULL;
+}
+void lista_imprimir(LISTA* l){
     if((l != NULL) && (l->tamanho > 0)){
         NO* p = l->inicio;
         while(p != NULL){
@@ -89,42 +89,60 @@ void pacientes_listar(LISTA* l){
     }
 }
 
-    int lista_tamanho(LISTA* l){
-        if(l != NULL){
-            return l->tamanho;
-        } else {
-            return -1;
-        }
+PACIENTE* listar_pacientes_por_posicao(LISTA* l, int pos) {
+    if (l == NULL || pos < 0 || pos >= l->tamanho) {
+        return NULL;
     }
-    bool lista_vazia(LISTA* l){
-        if((l != NULL) && (l->tamanho == 0)){
+
+    NO* atual = l->inicio;
+    while (atual != NULL && pos > 0) {
+        atual = atual->prox;
+        pos--;
+    }
+
+    if (atual == NULL) {
+        return NULL;
+    }
+
+    return atual->paciente;
+}
+
+int lista_tamanho(LISTA* l){
+    if(l != NULL){
+        return l->tamanho;
+    } else {
+        return -1;
+    }
+}
+bool lista_vazia(LISTA* l){
+    if((l != NULL) && (l->tamanho == 0)){
+        return true;
+    } else {
+        return false;
+    }
+}
+bool lista_cheia(LISTA* l){
+    if(l != NULL){
+        NO* p = (NO*) malloc(sizeof(NO));
+        if(p == NULL){
             return true;
         } else {
+            free(p);
             return false;
         }
+    } else {
+        return true;
     }
-    bool lista_cheia(LISTA* l){
-        if(l != NULL){
-            NO* p = (NO*) malloc(sizeof(NO));
-            if(p == NULL){
-                return true;
-            } else {
-                free(p);
-                return false;
-            }
-        } else {
-            return true;
+}
+void lista_destruir(LISTA* l){
+    if(l != NULL){
+        NO* p = l->inicio;
+        while(p != NULL){
+            NO* aux = p;
+            p = p->prox;
+            paciente_apagar(&(aux->paciente));
+            free(aux);
         }
+        free(l);
     }
-    void lista_destruir(LISTA* l){
-        if(l != NULL){
-            NO* p = l->inicio;
-            while(p != NULL){
-                NO* aux = p;
-                p = p->prox;
-                paciente_apagar(&(aux->paciente));
-                free(aux);
-            }
-            free(l);
-        }
-    }
+}

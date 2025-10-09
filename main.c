@@ -1,15 +1,17 @@
 /* TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS
 Alunos:
-João Pedro Boaretto, nUSP: 
+João Pedro Boaretto, nUSP:  16876293
 Lorena Borges, nUSP: 16883652
 Sofia Lima, nUSP: 
 */
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "historico.h" // não sei se o include vai funcionar da forma que está, porque o historico.h está em outro diretório
+//#include "historico.h" // não sei se o include vai funcionar da forma que está, porque o historico.h está em outro diretório
                        // e tem que dar include nos outros TADs também, talvez quando acabarmos todos.FAltam: fila de espera,
                        // banco de dados e o TAD IO, de persistẽncia dos dados
+#include "lista.h"
+#include "fila.h"
 #define TAM_NOME 101
 
 int menu();
@@ -25,7 +27,7 @@ int main () {
     // precisa abrir o arquivo do banco de dados, e quando isso acontecer, colocar o banco de dados numa lista encadeada
     // como LISTA* registro = criar_lista();
     // ai depois if(LOAD(**)
-    HISTORICO* H;
+    // HISTORICO* H;
     
     while (true) {
         acao = menu();
@@ -42,7 +44,7 @@ int main () {
                 break;
             case 6: mostrar_fila_de_espera();
                 break;
-            case 7: consultar_historico(H);
+            case 7: consultar_historico();
                 break;
             case 8:
                 printf("\nSaindo do programa...\n");

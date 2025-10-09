@@ -1,4 +1,4 @@
-/* escolhemos uma implementação sequencial por ser mais simples de controlar o tamamho máximo, e porque, no caso
+/* escolhemos uma implementação sequencial por ser mais simples de controlar o tamanho máximo, e porque, no caso
 do problema, há apenas uma fila de espera, então não consome tanta memória constantemente. Além disso,
 escolhemos uma implementação circular para melhorar a sua eficiência, ao evitar a necessidade do deslocamento
 do vetor inteiro toda vez que alguém saísse da fila.
@@ -22,18 +22,6 @@ FILA *fila_criar() {
     return(fila);
 }
 
-bool fila_cheia(FILA *fila) {
-    if (fila != NULL) return (fila->tamanho == TAM_FILA);
-    else return true;
-}
-
-bool fila_vazia(FILA *fila) {
-    if (fila != NULL) {
-        return (fila->tamanho == 0);
-    }
-    return true;
-}
-
 bool fila_inserir(FILA *fila, PACIENTE *p) {
     if(fila != NULL && !fila_cheia(fila)) {
         fila->fila_de_espera[fila->fim] = p;
@@ -55,6 +43,11 @@ PACIENTE* fila_atender(FILA *fila) {
     return(NULL);
 }
 
+void fila_apagar(FILA **fila) {
+    free(*fila);
+    *fila = NULL;
+}
+
 PACIENTE* fila_proximo_atender(FILA *fila) {
     if(fila != NULL && !fila_vazia(fila)) {
         PACIENTE *p = fila->fila_de_espera[fila->inicio];
@@ -68,6 +61,18 @@ int fila_tamanho(FILA *fila) {
     else return (-1);
 }
 
+bool fila_vazia(FILA *fila) {
+    if (fila != NULL) {
+        return (fila->tamanho == 0);
+    }
+    return true;
+}
+
+bool fila_cheia(FILA *fila) {
+    if (fila != NULL) return (fila->tamanho == TAM_FILA);
+    else return true;
+}
+
 void fila_imprimir(FILA *fila) {
     if(fila != NULL) {
         int posicao = fila->inicio;
@@ -79,7 +84,3 @@ void fila_imprimir(FILA *fila) {
     }
 }
 
-void fila_apagar(FILA **fila) {
-    free(*fila);
-    *fila = NULL;
-}

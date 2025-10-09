@@ -10,10 +10,13 @@
 
     LISTA* lista_criar();
 
-    bool paciente_cadastrar(); //lista inserir
+    bool paciente_cadastrar(LISTA* l, PACIENTE* p); //lista inserir
     PACIENTE* obito_registrar(LISTA* l, int chave); //lista remover
     PACIENTE* paciente_buscar(LISTA* l, int chave); //lista buscar
-    void pacientes_listar(LISTA* l); //lista imprimir
+    void lista_imprimir(LISTA* l); //lista imprimir
+
+    // Auxiliares IO
+    PACIENTE* listar_pacientes_por_posicao(LISTA* l, int pos);
 
     int lista_tamanho(LISTA* l);
     bool lista_vazia(LISTA* l);

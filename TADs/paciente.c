@@ -56,8 +56,21 @@ void paciente_imprimir_nome(PACIENTE* aux) {
     if(aux!=NULL) printf("%s", aux->nome);
 }
 
+char* paciente_obter_nome(PACIENTE* aux) {
+    if (aux != NULL) return aux->nome;
+    return NULL;
+}
+
+HISTORICO* paciente_obter_historico(PACIENTE* aux) {
+    if (aux != NULL) return aux->procedimentos;
+    return NULL;
+}
+
 void paciente_consultar_historico(PACIENTE* aux) {
-    if(aux!=NULL) historico_consultar(aux->procedimentos);
+    if (aux == NULL) return;
+    if (aux->procedimentos != NULL) {
+        historico_consultar(aux->procedimentos);
+    }
 }
 
 bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento) {
