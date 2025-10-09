@@ -78,9 +78,9 @@ PROCEDIMENTO* desfazer_procedimento(HISTORICO* h){
 
 void historico_consultar(HISTORICO* h){
     if(h != NULL && !historico_vazio(h)){
-        printf("Historico de procedimentos:\n");
+        printf("| Historico de procedimentos:\n");
         for(int i = h->tamanho - 1; i >= 0; i--){
-            printf("- %s\n", h->procedimentos[i]->descricao);
+            printf("| - %s\n", h->procedimentos[i]->descricao);
         }
     } else {
         printf("Historico vazio.\n");

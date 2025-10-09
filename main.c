@@ -10,6 +10,8 @@ Sofia Albuquerque Lima, nUSP: 16900810
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "./TADs/lista.h"
 #include "./TADs/fila.h"
@@ -50,7 +52,6 @@ int main () {
         printf("Erro ao inicializar estruturas principais.\n");
         return 1;
     }
-
     
     while (true) {
         acao = menu();
@@ -123,7 +124,26 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
 }
 
 void registrar_obito() {
-    printf("Funcao registrar_obito ainda nao implementada.\n");
+    printf("\nQual paciente voce quer registrar o obito? (digite seu ID)\n");
+    int ID_obito; scanf(" %d", &ID_obito);
+    if (paciente_buscar(registro, ID_obito) == NULL) {
+        printf("\nPaciente nao encontrado. Verifique o ID e tente novamente.\n");
+        return;
+    } else {
+        if(fila_buscar(fila, ID_obito)) {
+            printf("\nO paciente a ser registrado como obito esta na fila de espera. Nao e possivel registrar obito para pacientes na fila de espera.\n");
+            return;
+        }else{
+            PACIENTE* removido = obito_registrar(registro, ID_obito);
+            if (removido == NULL) {
+                printf("\nErro ao registrar obito. Tente novamente.\n");
+                return;
+            } else {
+                printf("\nObito registrado com sucesso para o paciente %s (ID: %d).\n", paciente_obter_nome(removido), paciente_obter_ID(removido));
+                return;
+            }
+        }
+    }
 }
 
 void adicionar_procedimento_paciente(LISTA* registro) {
@@ -219,11 +239,20 @@ void desfazer_procedimento_paciente() {
 }
 
 void chamar_paciente_atendimento() {
-    printf("Funcao chamar_paciente_atendimento ainda nao implementada.\n");
+    PACIENTE* atendido = fila_atender(fila);
+    if (atendido == NULL) {
+        printf("\nFila de espera vazia. Nenhum paciente para atender.\n");
+        return;
+    } else {
+        printf("\nPaciente %s (ID: %d) chamado para atendimento.\n", paciente_obter_nome(atendido), paciente_obter_ID(atendido));
+        printf("O proximo Paciente: %s (ID: %d).\n", paciente_obter_nome(fila_proximo_atender(fila)), paciente_obter_ID(fila_proximo_atender(fila)));
+        return;
+    }
 }
 
 void mostrar_fila_de_espera() {
     if (fila != NULL) {
+        printf("Fila de espera atual:\n");
         fila_imprimir(fila);
     } else {
         printf("Fila nao existe.\n");
@@ -231,7 +260,17 @@ void mostrar_fila_de_espera() {
 }
 
 void mostrar_historico_paciente() {
-    
+    int ID_historico;
+    printf("\nDigite o ID do paciente cujo historico voce quer consultar: ");
+    scanf(" %d", &ID_historico);
+    PACIENTE* paciente = paciente_buscar(registro, ID_historico);
+    if (paciente == NULL) {
+        printf("\nPaciente nao encontrado. Verifique o ID e tente novamente.\n");
+        return;
+    } else {
+        paciente_consultar_historico(paciente);
+        return;
+    }
 }
 
 void sair(){

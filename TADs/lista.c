@@ -86,7 +86,7 @@ void lista_imprimir(LISTA* l){
     if((l != NULL) && (l->tamanho > 0)){
         NO* p = l->inicio;
         while(p != NULL){
-            paciente_imprimir(p->paciente);
+            paciente_imprimir_lista(p->paciente);
             p = p->prox;
         }
     }

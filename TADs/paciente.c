@@ -37,11 +37,21 @@ bool paciente_apagar(PACIENTE** aux) {
     return false;
 }
 
-void paciente_imprimir(PACIENTE* aux) {
+void paciente_imprimir_fila(PACIENTE* aux) {
     if(aux != NULL) {
-        printf("Nome: %s\n", aux->nome);
+        printf("Nome: %s, ", aux->nome);
         printf("ID: %d\n", aux->id);
+    }
+    else {
+        printf("Paciente nao existe ou nao ha memoria suficiente para possibilitar sua impressao");
+    }
+}
+void paciente_imprimir_lista(PACIENTE* aux) {
+    if(aux != NULL) {
+        printf("| Nome: %s\n", aux->nome);
+        printf("| ID: %d\n", aux->id);
         historico_consultar(aux->procedimentos);
+        printf("--------------------------\n");
     }
     else {
         printf("Paciente nao existe ou nao ha memoria suficiente para possibilitar sua impressao");

@@ -50,6 +50,19 @@ void fila_apagar(FILA **fila) {
     *fila = NULL;
 }
 
+bool fila_buscar(FILA *fila, int ID){
+    if(fila != NULL && !fila_vazia(fila)){
+        int posicao = fila->inicio;
+        for(int i=0; i<fila->tamanho; i++){
+            if(paciente_obter_ID(fila->fila_de_espera[posicao]) == ID){
+                return true;
+            }
+            posicao = (posicao+1)%TAM_FILA;
+        }
+    }
+    return false;
+}
+
 PACIENTE* fila_proximo_atender(FILA *fila) {
     if(fila != NULL && !fila_vazia(fila)) {
         PACIENTE *p = fila->fila_de_espera[fila->inicio];
@@ -80,7 +93,7 @@ void fila_imprimir(FILA *fila) {
         int posicao = fila->inicio;
         for(int i=0; i<fila->tamanho; i++) {
             printf("%d- ", i+1);
-            paciente_imprimir(fila->fila_de_espera[posicao]);
+            paciente_imprimir_fila(fila->fila_de_espera[posicao]);
             posicao = (posicao+1)%TAM_FILA;
         }
     }

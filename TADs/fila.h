@@ -12,6 +12,7 @@
 	bool fila_inserir(FILA *fila, PACIENTE *p);
 	PACIENTE *fila_atender(FILA *fila); // fila_remover
 	void fila_apagar(FILA **fila);
+	bool fila_buscar(FILA *fila, int ID); // fila_contem
 
 	PACIENTE *fila_proximo_atender(FILA *fila); // fila_frente
 	int fila_tamanho(FILA *fila);
