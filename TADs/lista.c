@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+	#include "lista.h"
 	#include "paciente.h"
 	#include "historico.h"
 
@@ -23,7 +26,7 @@ LISTA* lista_criar(){
 
 
 bool paciente_cadastrar(LISTA* l, PACIENTE* p){
-    if((!lista_cheia(l)) && (l != NULL)){
+    if((lista_cheia(l) == false) && (l != NULL)){
         NO* pnovo = (NO*) malloc(sizeof(NO));
         pnovo->paciente = p;
         pnovo->prox = NULL;
