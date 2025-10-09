@@ -25,12 +25,11 @@ void adicionar_procedimento_paciente();
 void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
-void mostrar_historico_paciente(HISTORICO* H);
+void mostrar_historico_paciente();
 void sair();
 
 LISTA* registro;
 FILA* fila;
-HISTORICO* H;
 
 int main () {
     int acao;
@@ -52,8 +51,6 @@ int main () {
         printf("Erro ao inicializar estruturas principais.\n");
         return 1;
     }
-
-    H = NULL;
     
     while (true) {
         acao = menu();
@@ -70,7 +67,7 @@ int main () {
                 break;
             case 6: mostrar_fila_de_espera();
                 break;
-            case 7: mostrar_historico_paciente(H);
+            case 7: mostrar_historico_paciente();
                 break;
             case 8: sair();
             default:
@@ -168,17 +165,24 @@ void chamar_paciente_atendimento() {
 
 void mostrar_fila_de_espera() {
     if (fila != NULL) {
+        printf("Fila de espera atual:\n");
         fila_imprimir(fila);
     } else {
         printf("Fila nao existe.\n");
     }
 }
 
-void mostrar_historico_paciente(HISTORICO* H_local) {
-    if (H_local != NULL) {
-        historico_consultar(H_local);
+void mostrar_historico_paciente() {
+    int ID_historico;
+    printf("\nDigite o ID do paciente cujo historico voce quer consultar: ");
+    scanf(" %d", &ID_historico);
+    PACIENTE* paciente = paciente_buscar(registro, ID_historico);
+    if (paciente == NULL) {
+        printf("\nPaciente nao encontrado. Verifique o ID e tente novamente.\n");
+        return;
     } else {
-        printf("Historico nao disponivel.\n");
+        paciente_consultar_historico(paciente);
+        return;
     }
 }
 

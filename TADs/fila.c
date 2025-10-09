@@ -93,7 +93,7 @@ void fila_imprimir(FILA *fila) {
         int posicao = fila->inicio;
         for(int i=0; i<fila->tamanho; i++) {
             printf("%d- ", i+1);
-            paciente_imprimir(fila->fila_de_espera[posicao]);
+            paciente_imprimir_fila(fila->fila_de_espera[posicao]);
             posicao = (posicao+1)%TAM_FILA;
         }
     }

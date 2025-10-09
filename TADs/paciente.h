@@ -10,7 +10,8 @@
 
 	PACIENTE* paciente_criar(char string[], int i);
 	bool paciente_apagar(PACIENTE** aux);
-	void paciente_imprimir(PACIENTE* aux);
+	void paciente_imprimir_fila(PACIENTE* aux);
+	void paciente_imprimir_lista(PACIENTE* aux);
 	int paciente_obter_ID(PACIENTE* aux);
     void paciente_imprimir_nome(PACIENTE* aux);
 	char* paciente_obter_nome(PACIENTE* aux);
