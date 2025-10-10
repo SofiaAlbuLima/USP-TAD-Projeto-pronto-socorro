@@ -3,6 +3,29 @@
 #include <string.h>
 #include "IO.h"
 
+/*
+    SAVE / LOAD
+    -> nao destrutivo
+    -> dados estruturados
+    -> arquivo unico (+organizado e +seguro)
+    -> mais tratamento de erros
+
+        Uma implementação mais robusta do que o arquivo IO sugerido.
+    Assim, podemos garantir maior segurança e integridade dos dados.
+
+    -> Não destrutivo: não destroem a lista e a fila, somente fazem as
+        operações de leitura e escrita. (possibilitando leitura e escrita on-the-fly)
+    -> Dados estruturados: guarda os dados na forma como estão nas estruturas, ou seja,
+        salva um Paciente e seus atributos (nome, id, histórico).
+    -> Arquivo único: todos os dados são salvos em um único arquivo binário, oferecendo
+        maior organização e segurança.
+    -> Mais tratamento de erros: a cada leitura e gravação, foram feitas verificações para
+        assegurar o processamento correto dos dados.
+*/
+
+
+
+
 static bool salvar_string(FILE* arquivo, const char* texto) {
     int tamanho = 0;
     if (texto != NULL) {
@@ -13,7 +36,7 @@ static bool salvar_string(FILE* arquivo, const char* texto) {
         return false;
     }
 
-    if (tamanho > 0 && fwrite(texto, sizeof(char), tamanho, arquivo) != (size_t) tamanho) {
+    if (tamanho > 0 && fwrite(texto, sizeof(char), tamanho, arquivo) !=  tamanho) {
         return false;
     }
 
@@ -132,7 +155,7 @@ bool SAVE(LISTA *lista, FILA *fila) {
     }
 
     if (fila != NULL && total_pacientes_fila > 0) {
-        PACIENTE** buffer = (PACIENTE**) malloc(sizeof(PACIENTE*) * (size_t) total_pacientes_fila);
+        PACIENTE** buffer = (PACIENTE**) malloc(total_pacientes_fila * sizeof(PACIENTE*));
         if (buffer == NULL) {
             fclose(arquivo);
             return false;
