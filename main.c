@@ -75,6 +75,7 @@ int main () {
             case 8:
                 flag = sair();
                 if(flag == false) return 0;
+                break;
             default:
                 printf("\nFuncionalidade inexistente. Escolha entre as opcoes abaixo:\n");
         }
@@ -84,7 +85,7 @@ int main () {
 
 int menu(){
     int aux;
-    printf("\n[1] Registrar paciente\n");
+    printf("\n\n[1] Registrar paciente\n");
     printf("[2] Registrar obito de paciente\n");
     printf("[3] Adicionar procedimento ao historico medico\n");
     printf("[4] Desfazer procedimento do historico medico\n");
@@ -294,13 +295,15 @@ bool sair(){
     printf("\nSalvando dados e encerrando o programa...\n");
         if (SAVE(registro, fila)) {
             printf("Dados salvos com sucesso.\n");
+
+            lista_destruir(registro);
+            registro = NULL;
+            fila_apagar(&fila);
+
             flag = false;
         } else {
             printf("Falha ao salvar os dados. Verifique o armazenamento e tente novamente.\n");
             flag = true;
         }
-        lista_destruir(registro);
-        registro = NULL;
-        fila_apagar(&fila);
         return flag;
 }
