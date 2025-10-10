@@ -17,7 +17,7 @@ O serviço de Atendimento Médico Emergencial envolve várias etapas:
 ## Especificações Importantes
 - *Persistência de Dados:* Os dados armazenados devem ser guardados em Disco. Ao sair do sistema, armazene tudo de uma unica vez. Ao entrar no sistema, recarregue tudo (será feito no TAD IO)
 
-# Funcionamento:
+## Funcionamento:
 O nosso código possui 5 TADs para auxiliar o código principal (main.c):
 - Histórico (historico.c e historico.h);
 - Paciente (paciente.c e paciente.h);
