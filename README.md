@@ -72,8 +72,15 @@ do vetor inteiro toda vez que alguém saísse da fila.
 # TAD IO
 O TAD IO realiza a função de persistência de dados. Foram feitas modificações em relação ao TAD IO oferecido como base com o intuito de garantir maior segurança e robustez no tratamento dos dados. As funções desenvolvidas, SAVE e LOAD, possuem, em diversas partes de sua composição, verificações de erros para assegurar a integridade das informações. Dessa forma, o TAD apresenta as seguintes vantagens em relação ao sugerido:
 - Melhor tratamento dos dados
+- Dados estruturados, melhor representação da informação
 - Unificação dos dados em um único arquivo para segurança
 - Não destrutivo (se necessário, pode ser usado em execução, sem ter que encerrar o programa)
+
+Das funções desenvolvidas no TAD IO, temos:
+- SAVE; -> escreve os dados no arquivo .bin para a persistência. Possui diversas validações/verificações para garantir que os dados sejam inseridos da forma correta
+  - salvar_string; -> realiza a gravação no arquivo
+- LOAD; -> carrega os dados do arquivo .bin para as devidas estruturas de dados utilizadas no programa, como a lista, a pilha e a fila
+  - carregar_string; -> realiza a leitura do arquivo
 
 # CÓDIGO PRINCIPAL:
 A nossa main cumpre a função de construir as funções mais complexas, com multiplas camadas de TAD, pedidas pelas operações desejadas para o sistema, ao chamar funções dos TADs.
