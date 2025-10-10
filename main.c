@@ -2,7 +2,7 @@
 
 Alunos:
 João Pedro Boaretto, nUSP:  16876293
-Lorena Borges, nUSP: 16883652
+Lorena Moreira Borges, nUSP: 16883652
 Sofia Albuquerque Lima, nUSP: 16900810
 
 */
@@ -27,7 +27,7 @@ void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
 void mostrar_historico_paciente();
-void sair();
+bool sair();
 
 LISTA* registro;
 FILA* fila;
@@ -53,7 +53,9 @@ int main () {
         return 1;
     }
     
+    bool flag;
     while (true) {
+        flag = false;
         acao = menu();
         switch (acao) {
             case 1: registrar_paciente(registro, fila);
@@ -71,8 +73,9 @@ int main () {
             case 7: mostrar_historico_paciente();
                 break;
             case 8:
-                sair();
-                return 0;
+                flag = sair();
+                if(flag == false) return 0;
+                break;
             default:
                 printf("\nFuncionalidade inexistente. Escolha entre as opcoes abaixo:\n");
         }
@@ -82,7 +85,7 @@ int main () {
 
 int menu(){
     int aux;
-    printf("\n[1] Registrar paciente\n");
+    printf("\n\n[1] Registrar paciente\n");
     printf("[2] Registrar obito de paciente\n");
     printf("[3] Adicionar procedimento ao historico medico\n");
     printf("[4] Desfazer procedimento do historico medico\n");
@@ -90,6 +93,7 @@ int menu(){
     printf("[6] Mostrar fila de espera\n");
     printf("[7] Mostrar historico do paciente\n");
     printf("[8] Sair\n\n");
+    printf("Digite o numero da operacao desejada [1-8]: ");
     scanf(" %d", &aux);
     return aux;
 }
@@ -98,7 +102,7 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
     char nome[TAM_NOME];
     int ID;
     printf("\nDigite o nome do paciente (maximo de 100 caracteres): ");
-    scanf(" %[^\n]s", nome);
+    scanf(" %[^\n\r]s", nome);
     printf("Digite o ID do paciente (numero inteiro): ");
     scanf(" %d", &ID);
     
@@ -134,18 +138,21 @@ void registrar_obito() {
     } else {
         if(fila_buscar(fila, ID_obito)) {
             printf("\nO paciente a ser registrado como obito esta na fila de espera. Nao e possivel registrar obito para pacientes na fila de espera.\n");
-            return;
         }else{
             PACIENTE* removido = obito_registrar(registro, ID_obito);
+            int ID_falecido = paciente_obter_ID(removido);
+
             if (removido == NULL) {
-                printf("\nErro ao registrar obito. Tente novamente.\n");
-                return;
+                printf("\nErro ao registrar obito no banco de dados. Tente novamente.\n");
             } else {
-                printf("\nObito registrado com sucesso para o paciente %s (ID: %d).\n", paciente_obter_nome(removido), paciente_obter_ID(removido));
-                return;
+                printf("\nObito registrado com sucesso para o paciente ");
+                paciente_imprimir_nome(removido);
+                printf(" (ID: %d).\n", ID_falecido);
+                paciente_apagar(&removido);
             }
         }
     }
+    return;
 }
 
 void adicionar_procedimento_paciente(LISTA* registro) {
@@ -236,8 +243,12 @@ void desfazer_procedimento_paciente() {
     }
 
     const char* descricao = procedimento_obter_descricao(procedimento);
+    
     printf("Procedimento removido: %s\n", (descricao != NULL) ? descricao : "(descricao indisponivel)");
-    free(procedimento);
+
+    if(!procedimento_apagar(&procedimento)) {
+        printf("Procedimento ainda na memoria! Memory leak\n");
+    }
 }
 
 void chamar_paciente_atendimento() {
@@ -246,8 +257,18 @@ void chamar_paciente_atendimento() {
         printf("\nFila de espera vazia. Nenhum paciente para atender.\n");
         return;
     } else {
-        printf("\nPaciente %s (ID: %d) chamado para atendimento.\n", paciente_obter_nome(atendido), paciente_obter_ID(atendido));
-        printf("O proximo Paciente: %s (ID: %d).\n", (fila_proximo_atender(fila) == NULL) ? "Sem proximo paciente" : paciente_obter_nome(fila_proximo_atender(fila)), paciente_obter_ID(fila_proximo_atender(fila)));
+        printf("\nPaciente ");
+        paciente_imprimir_nome(atendido);
+        printf(" (ID: %d) chamado para atendimento.\n", paciente_obter_ID(atendido));
+        
+        if (fila_proximo_atender(fila) != NULL) {
+            printf("O proximo Paciente: ");
+            paciente_imprimir_nome(fila_proximo_atender(fila));
+            printf(" (ID: %d).\n", paciente_obter_ID(fila_proximo_atender(fila)));
+        } else {
+            printf("Sem proximo paciente.\n");
+        }
+        
         return;
     }
 }
@@ -279,15 +300,20 @@ void mostrar_historico_paciente() {
     }
 }
 
-void sair(){
+bool sair(){
+    bool flag;
     printf("\nSalvando dados e encerrando o programa...\n");
         if (SAVE(registro, fila)) {
             printf("Dados salvos com sucesso.\n");
+
+            lista_destruir(registro);
+            registro = NULL;
+            fila_apagar(&fila);
+
+            flag = false;
         } else {
-            printf("Falha ao salvar os dados. Verifique o armazenamento.\n");
+            printf("Falha ao salvar os dados. Verifique o armazenamento e tente novamente.\n");
+            flag = true;
         }
-        lista_destruir(registro);
-        registro = NULL;
-        fila_apagar(&fila);
-        return;
+        return flag;
 }

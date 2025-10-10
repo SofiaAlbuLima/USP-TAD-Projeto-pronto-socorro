@@ -14,7 +14,7 @@
 	PACIENTE *fila_atender(FILA *fila); // fila_remover
 
 	void fila_apagar(FILA **fila);
-	bool fila_buscar(FILA *fila, int ID); // fila_contem
+	bool fila_buscar(FILA *fila, int ID); // verifica se esta contido
 	PACIENTE *fila_proximo_atender(FILA *fila); // fila_frente
 	int fila_tamanho(FILA *fila);
 	bool fila_vazia(FILA *fila);

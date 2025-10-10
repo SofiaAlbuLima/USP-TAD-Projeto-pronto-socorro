@@ -22,4 +22,5 @@
     PROCEDIMENTO* historico_obter_procedimento_por_posicao(HISTORICO* h, int pos);
     PROCEDIMENTO* procedimento_criar(const char descricao[]);
     const char* procedimento_obter_descricao(PROCEDIMENTO* procedimento);
+    bool procedimento_apagar(PROCEDIMENTO** p);
 #endif

@@ -15,7 +15,7 @@
     PACIENTE* paciente_buscar(LISTA* l, int chave); //lista buscar
     void lista_imprimir(LISTA* l); //lista imprimir
 
-    // Auxiliares IO
+    // Auxiliares para o TAD IO
     PACIENTE* listar_pacientes_por_posicao(LISTA* l, int pos);
 
     int lista_tamanho(LISTA* l);

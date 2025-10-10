@@ -20,4 +20,5 @@
     void paciente_consultar_historico(PACIENTE* aux);
 	bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento); // do histórico médico
     PROCEDIMENTO* paciente_desfazer_procedimento(PACIENTE* aux); // do histórico médico
+	char* paciente_obter_nome(PACIENTE* aux); // PROBLEMA!!!
 #endif

@@ -38,7 +38,7 @@ bool paciente_apagar(PACIENTE** aux) {
 }
 
 void paciente_imprimir_fila(PACIENTE* aux) {
-    if(aux != NULL) {
+    if(aux != NULL && aux->nome != NULL) {
         printf("Nome: %s, ", aux->nome);
         printf("ID: %d\n", aux->id);
     }
@@ -47,7 +47,7 @@ void paciente_imprimir_fila(PACIENTE* aux) {
     }
 }
 void paciente_imprimir_lista(PACIENTE* aux) {
-    if(aux != NULL) {
+    if(aux != NULL && aux->nome != NULL) {
         printf("| Nome: %s\n", aux->nome);
         printf("| ID: %d\n", aux->id);
         historico_consultar(aux->procedimentos);
@@ -113,5 +113,10 @@ PROCEDIMENTO* paciente_desfazer_procedimento(PACIENTE* aux) {
         PROCEDIMENTO* p = desfazer_procedimento(aux->procedimentos);
         return p;
     }
+    return NULL;
+}
+
+char* paciente_obter_nome(PACIENTE* aux) {
+    if (aux != NULL) return aux->nome;
     return NULL;
 }
