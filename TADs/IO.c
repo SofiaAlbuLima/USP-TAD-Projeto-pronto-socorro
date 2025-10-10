@@ -115,7 +115,7 @@ bool SAVE(LISTA *lista, FILA *fila) {
             return false;
         }
 
-        if (!salvar_string(arquivo, paciente_obter_nome(paciente))) {
+        if (!salvar_string(arquivo, paciente_obter_nome(paciente))) { // PROBLEMA!!!
             fclose(arquivo);
             return false;
         }

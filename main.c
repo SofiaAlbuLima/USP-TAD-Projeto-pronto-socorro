@@ -140,15 +140,15 @@ void registrar_obito() {
             printf("\nO paciente a ser registrado como obito esta na fila de espera. Nao e possivel registrar obito para pacientes na fila de espera.\n");
         }else{
             PACIENTE* removido = obito_registrar(registro, ID_obito);
-            char nome_falecido[TAM_NOME];
-            strcpy(nome_falecido, paciente_obter_nome(removido));
             int ID_falecido = paciente_obter_ID(removido);
-            bool flag = paciente_apagar(&removido);
 
-            if (removido == NULL || flag == false) {
+            if (removido == NULL) {
                 printf("\nErro ao registrar obito no banco de dados. Tente novamente.\n");
             } else {
-                printf("\nObito registrado com sucesso para o paciente %s (ID: %d).\n", nome_falecido, ID_falecido);
+                printf("\nObito registrado com sucesso para o paciente ");
+                paciente_imprimir_nome(removido);
+                printf(" (ID: %d).\n", ID_falecido);
+                paciente_apagar(&removido);
             }
         }
     }
@@ -257,8 +257,18 @@ void chamar_paciente_atendimento() {
         printf("\nFila de espera vazia. Nenhum paciente para atender.\n");
         return;
     } else {
-        printf("\nPaciente %s (ID: %d) chamado para atendimento.\n", paciente_obter_nome(atendido), paciente_obter_ID(atendido));
-        printf("O proximo Paciente: %s (ID: %d).\n", (fila_proximo_atender(fila) == NULL) ? "Sem proximo paciente" : paciente_obter_nome(fila_proximo_atender(fila)), paciente_obter_ID(fila_proximo_atender(fila)));
+        printf("\nPaciente ");
+        paciente_imprimir_nome(atendido);
+        printf(" (ID: %d) chamado para atendimento.\n", paciente_obter_ID(atendido));
+        
+        if (fila_proximo_atender(fila) == NULL) {
+        printf("O proximo Paciente: ");
+        paciente_imprimir_nome(fila_proximo_atender(fila));
+        printf(" (ID: %d).\n", paciente_obter_ID(fila_proximo_atender(fila)));
+        } else {
+            printf("Sem proximo paciente.\n");
+        }
+        
         return;
     }
 }
