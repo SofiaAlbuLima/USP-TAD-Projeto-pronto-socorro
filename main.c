@@ -261,10 +261,10 @@ void chamar_paciente_atendimento() {
         paciente_imprimir_nome(atendido);
         printf(" (ID: %d) chamado para atendimento.\n", paciente_obter_ID(atendido));
         
-        if (fila_proximo_atender(fila) == NULL) {
-        printf("O proximo Paciente: ");
-        paciente_imprimir_nome(fila_proximo_atender(fila));
-        printf(" (ID: %d).\n", paciente_obter_ID(fila_proximo_atender(fila)));
+        if (fila_proximo_atender(fila) != NULL) {
+            printf("O proximo Paciente: ");
+            paciente_imprimir_nome(fila_proximo_atender(fila));
+            printf(" (ID: %d).\n", paciente_obter_ID(fila_proximo_atender(fila)));
         } else {
             printf("Sem proximo paciente.\n");
         }
