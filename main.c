@@ -27,7 +27,7 @@ void desfazer_procedimento_paciente();
 void chamar_paciente_atendimento();
 void mostrar_fila_de_espera();
 void mostrar_historico_paciente();
-void sair();
+bool sair();
 
 LISTA* registro;
 FILA* fila;
@@ -53,7 +53,9 @@ int main () {
         return 1;
     }
     
+    bool flag;
     while (true) {
+        flag = false;
         acao = menu();
         switch (acao) {
             case 1: registrar_paciente(registro, fila);
@@ -71,8 +73,8 @@ int main () {
             case 7: mostrar_historico_paciente();
                 break;
             case 8:
-                sair();
-                return 0;
+                flag = sair();
+                if(flag == false) return 0;
             default:
                 printf("\nFuncionalidade inexistente. Escolha entre as opcoes abaixo:\n");
         }
@@ -90,6 +92,7 @@ int menu(){
     printf("[6] Mostrar fila de espera\n");
     printf("[7] Mostrar historico do paciente\n");
     printf("[8] Sair\n\n");
+    printf("Digite o número da operação desejada [1-8]: ");
     scanf(" %d", &aux);
     return aux;
 }
@@ -134,18 +137,21 @@ void registrar_obito() {
     } else {
         if(fila_buscar(fila, ID_obito)) {
             printf("\nO paciente a ser registrado como obito esta na fila de espera. Nao e possivel registrar obito para pacientes na fila de espera.\n");
-            return;
         }else{
             PACIENTE* removido = obito_registrar(registro, ID_obito);
-            if (removido == NULL) {
-                printf("\nErro ao registrar obito. Tente novamente.\n");
-                return;
+            char nome_falecido[TAM_NOME];
+            strcpy(nome_falecido, paciente_obter_nome(removido));
+            int ID_falecido = paciente_obter_ID(removido);
+            bool flag = paciente_apagar(&removido);
+
+            if (removido == NULL || flag == false) {
+                printf("\nErro ao registrar obito no banco de dados. Tente novamente.\n");
             } else {
-                printf("\nObito registrado com sucesso para o paciente %s (ID: %d).\n", paciente_obter_nome(removido), paciente_obter_ID(removido));
-                return;
+                printf("\nObito registrado com sucesso para o paciente %s (ID: %d).\n", nome_falecido, ID_falecido);
             }
         }
     }
+    return;
 }
 
 void adicionar_procedimento_paciente(LISTA* registro) {
@@ -236,8 +242,12 @@ void desfazer_procedimento_paciente() {
     }
 
     const char* descricao = procedimento_obter_descricao(procedimento);
+    
     printf("Procedimento removido: %s\n", (descricao != NULL) ? descricao : "(descricao indisponivel)");
-    free(procedimento); // não é pra dar pra poder fazerisso, rompe o sentido do TAD :( ou então entendi errado :)
+
+    if(!procedimento_apagar(&procedimento)) {
+        printf("Procedimento ainda na memoria! Memory leak\n");
+    }
 }
 
 void chamar_paciente_atendimento() {
@@ -279,15 +289,18 @@ void mostrar_historico_paciente() {
     }
 }
 
-void sair(){
+bool sair(){
+    bool flag;
     printf("\nSalvando dados e encerrando o programa...\n");
         if (SAVE(registro, fila)) {
             printf("Dados salvos com sucesso.\n");
+            flag = false;
         } else {
-            printf("Falha ao salvar os dados. Verifique o armazenamento.\n"); // isso faz os dados serem perdidos pra sempre ou faz a pessoa tentar de novo?
+            printf("Falha ao salvar os dados. Verifique o armazenamento e tente novamente.\n");
+            flag = true;
         }
         lista_destruir(registro);
         registro = NULL;
         fila_apagar(&fila);
-        return;
+        return flag;
 }

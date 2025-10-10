@@ -29,6 +29,7 @@ HISTORICO* historico_criar(void){
 bool historico_apagar(HISTORICO** h){
     if(h != NULL && *h != NULL){
         for(int i = 0; i < (*h)->tamanho; i++){
+            procedimento_apagar(&((*h)->procedimentos[i]));
             free((*h)->procedimentos[i]);
         }
         free(*h);
@@ -116,3 +117,11 @@ const char* procedimento_obter_descricao(PROCEDIMENTO* procedimento) {
     return procedimento->descricao;
 }
 
+bool procedimento_apagar(PROCEDIMENTO** p) {
+    if(p != NULL && *p != NULL) {
+        free(*p);
+        *p = NULL;
+        return true;
+    }
+    return false;
+}

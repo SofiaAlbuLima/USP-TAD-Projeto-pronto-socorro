@@ -96,7 +96,7 @@ bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento) 
     free(procedimento);
     return false;
 }
-// função provavelmente errada. Era pra apagar o vetor do vetor
+
 PROCEDIMENTO* paciente_desfazer_procedimento(PACIENTE* aux) {
     if(aux != NULL) {
         PROCEDIMENTO* p = desfazer_procedimento(aux->procedimentos);
