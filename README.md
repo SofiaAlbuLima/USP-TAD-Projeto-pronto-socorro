@@ -1,5 +1,11 @@
+# TRABALHO 1 DA DISCIPLINA DE ALGORITMOS E ESTRUTURAS DE DADOS I
 # USP-TAD-Projeto-pronto-socorro
 Projeto desenvolvido para a disciplina Algoritmos e Estruturas de Dados I do segundo semestre de graduação.
+
+# Alunos:
+- João Pedro Boaretto, nUSP: 16876293
+- Lorena Moreira Borges, nUSP: 16883652
+- Sofia Albuquerque Lima, nUSP: 16900810
 
 # Projeto: Pronto Socorro
 O serviço de Atendimento Médico Emergencial envolve várias etapas: 
@@ -11,63 +17,61 @@ O serviço de Atendimento Médico Emergencial envolve várias etapas:
 ## Especificações Importantes
 - *Persistência de Dados:* Os dados armazenados devem ser guardados em Disco. Ao sair do sistema, armazene tudo de uma unica vez. Ao entrar no sistema, recarregue tudo (será feito no TAD IO)
 
-## Pacientes
-- Armazenar ID e nome
+# Funcionamento:
+O nosso código possui 5 TADs para auxiliar o código principal (main.c):
+- Histórico (historico.c e historico.h);
+- Paciente (paciente.c e paciente.h);
+- Fila (fila.c e fila.h);
+- Lista (lista.c e lista.h);
+- TAD IO (IO.c e IO.h);
 
-## TADs
-Cada um dos TAds pilha, fila e lista devem ter um par de métodos que escrevem para o disco e ler do disco.
+## TAD PACIENTE
+O TAD paciente é um tipo estruturado de dado que define o "paciente" e as operações que podem ser utilizadas com ele, as quais foram:
 
-### 1. Lista: Relação de Pacientes
-O Hospital deve manter a lista de pacientes atendidos do PS, essa lista deve ter o paciente e seu histórico de tratamento
-- Cadastrar paciente (verificar se já existe)
-- Apagar paciente (óbito)
-- Buscar paciente (utilização de nós enquanto verifica que existe)
-- Listar todos os pacientes
+- paciente_criar; -> cria também um histórico pro paciente, chamando a função do TAD histórico específica
+- paciente_apagar; -> deletam também o histórico do paciente, chamando a função do TAD histórico específica
+- paciente_imprimir_fila; -> imprime o nome do paciente no formato específico adequado para a fila (fila de espera)
+- paciente_imprimir_lista; -> imprime o nome do paciente no formato específico adequado para a lista (registro)
+- paciente_obter_ID; -> devolve uma cópia do ID
+- paciente_imprimir_nome; -> imprime o nome do paciente
+- paciente_obter_copia_nome; -> entrega um ponteiro para uma copia do nome alocada dinamicamente na memória
+- paciente_deletar_copia_nome; -> deleta a cópia da memória
 
-### 2. Fila: Triagem dos Pacientes - Sala de Espera
-Ao dar entrada na Emergência, um paciente, já registrado ou não no hospital, vai para uma fila de atendimento. A fila tem tamanho finito.
-- Inserir paciente na fila
-- Remover paciente da fila
-- Fila cheia
-- Fila vazia
+As informações de um paciente são armazenadas numa struct que possui um campo para nome (char nome[]), um campo para ID (int id), e um ponteiro para o histórico desse paciente.
+A struct foi escolhida por ser uma estrutura que centraliza as informações a respeito de um mesmo tema, no caso, o paciente.
 
-### 3. Pilha: Histórico médico do Paciente
-A quantidade de procedimentos para cada paciente é de, no máximo, 10. O histórico é simplesmente um texto de, no máximo 100 caracteres. Reportar caso o paciente não for encontrado ou não houver procedimento a desfazer
-- Criar histórico
-- Inserir procedimento (Adicionar pelo ID, localizar o registro e inserir se o histórico não estiver cheio)
-- Retirar procedimento (Desfazer e informar o procedimento desfeito se o histórico não estiver vazio)
-- Consultar histórico
-- Histórico Cheio
-- Histórico Vazio
+# TAD HISTÓRICO
+(...)
 
-### 4. A Interface do Sistema - Menu principal
-- Registrar paciente
-- Registrar óbito de paciente (apagar paciente)
-- Adicionar procedimento no histórico médico
-- Desfazer procedimento do histórico médico
-- Chamar paciente para atendimento (verificar se a lista da triagem não é vazia, aí remover o primeiro da fila)
-- Mostrar fila de espera (buscar todos os pacientes)
-- Mostrar histórico do paciente (buscar paciente, ver se o histórico não é vazio e consultá-lo)
-- Sair (salvar na memória)
+# TAD FILA
+O TAD fila é uma estrutura em que os elementos são inseridos numa extremidade final e retiradas na inicial. Utilizamos ela para construir a fila de espera
+dos pacientes para o atendimento no pronto socorro. Os pacientes são inclusos na fila de espera pela função da main de registrar o paciente.
 
-### 5. Registrar Paciente
-Caso seja a primeira ocorrência de um paciente. Reportar se algum ID repetir
-- Registrar paciente
-- Inserir paciente na fila de espera
+- fila_criar; -> devolve um ponteiro para o espaço alocado na memória para a filal, com o conteúdo inicializado
+- fila_inserir; -> insere um paciente na fila de espera
+- fila_atender; -> equivalente ao genérico "fila_remover", remove o paciente que está na posição inicial da fila
+- fila_apagar; -> libera o espaço de memória da fila
+- fila_buscar; -> retorna true se o paciente estiver na lista, false caso contrário
+- fila_proximo_atender; -> equivalente ao genérico "fila_frente", foi criada para ser usada depois do "fila_atender" para mostrar quem será o próximo paciente a ser atendido
+                           (mostra o paciente da posição início)
+- fila_tamanho; -> devolve uma cópia do tamanho da fila, caso ela exista. Senão, devolve -1
+- fila_vazia; -> se tamanho ==0
+- fila_cheia; -> se tamanho == TAM_FILA
+- fila_imprimir; -> imprime a fila de espera
 
-### 6. Registrar óbito de paciente
-Em caso de morte de paciente, o paciente deve ser esquecido do sistema hospitalar, seu registro deve ser apagado. Deve ser reportado o sucesso ou insucesso da transação
-- Verificar se o paciente está na fila de atendimento
-    -   Se sim: não deve ser possível registrar óbito
-    -   Se não: Buscar paciente e apagá-lo
+As informações da fila são guardadas numa struct que possui um array de ponteiros para paciente de tamanho máximo TAM_FILA, definido por um define, que atualmente é 15, um contador
+para o ínicio, outro para o fim e um inteiro que guarda o tamanho.
 
-### 7. Chamar paciente para o atendimento
-Tirar paciente da fila. Reportar se a fila estiver vazia
+Implementação: a implementação da fila foi feita de maneira sequencial, pois é mais intuitivo de controlar o tamanho máximo, e porque, no caso do problema, há apenas uma fila de
+espera, então não consome tanta memória constantemente. Além disso, escolhemos uma implementação circular para melhorar a sua eficiência ao evitar a necessidade do deslocamento
+do vetor inteiro toda vez que alguém saísse da fila.
 
-### 8. Mostrar fila de espera
+# TAD LISTA
+(...)
 
-### 9. Mostrar Histórico do Paciente
+# TAD IO
+(...)
 
-### 10. IO (Input/Output): 
-- save
-- load
+# CÓDIGO PRINCIPAL:
+A nossa main cumpre a função de construir as funções mais complexas, com multiplas camadas de TAD, pedidas pelas operações desejadas para o sistema, ao chamar funções dos TADs.
+Ao longo do código, buscamos deixá-lo o mais seguro que podíamos, colocando diversas verificações e mensagens possíveis de erro. Decidimos por deixá-lo modularizado a partir das funções do menu.
