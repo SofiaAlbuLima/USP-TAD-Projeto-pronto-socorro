@@ -115,10 +115,12 @@ bool SAVE(LISTA *lista, FILA *fila) {
             return false;
         }
 
-        if (!salvar_string(arquivo, paciente_obter_nome(paciente))) {
+        char* nome = paciente_obter_copia_nome(paciente);
+        if (!salvar_string(arquivo, nome)) {
             fclose(arquivo);
             return false;
         }
+        paciente_deletar_copia_nome(&nome);
 
         HISTORICO* historico = paciente_obter_historico(paciente);
         int total_procedimentos = historico_tamanho(historico);

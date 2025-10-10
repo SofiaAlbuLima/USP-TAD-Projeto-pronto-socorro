@@ -14,7 +14,8 @@
 	void paciente_imprimir_lista(PACIENTE* aux);
 	int paciente_obter_ID(PACIENTE* aux);
     void paciente_imprimir_nome(PACIENTE* aux);
-	char* paciente_obter_nome(PACIENTE* aux);
+	char* paciente_obter_copia_nome(PACIENTE* aux);
+	bool paciente_deletar_copia_nome(char** nome);
 	HISTORICO* paciente_obter_historico(PACIENTE* aux);
     void paciente_consultar_historico(PACIENTE* aux);
 	bool paciente_adicionar_procedimento(PACIENTE* aux, PROCEDIMENTO* procedimento); // do histórico médico

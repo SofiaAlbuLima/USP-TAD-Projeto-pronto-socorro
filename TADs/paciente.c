@@ -67,9 +67,20 @@ void paciente_imprimir_nome(PACIENTE* aux) {
     if(aux!=NULL) printf("%s", aux->nome);
 }
 
-char* paciente_obter_nome(PACIENTE* aux) {
-    if (aux != NULL) return aux->nome;
-    return NULL;
+char* paciente_obter_copia_nome(PACIENTE* aux) {
+    char *nome = (char *)malloc(TAM_NOME * sizeof(char));
+    strcpy(nome, aux->nome);
+    if (aux != NULL) return nome;
+    return "";
+}
+
+bool paciente_deletar_copia_nome(char** nome) {
+    if (nome != NULL && *nome != NULL) {
+        free(*nome);
+        *nome = NULL;
+        return true;
+    }
+    return false;
 }
 
 HISTORICO* paciente_obter_historico(PACIENTE* aux) {
