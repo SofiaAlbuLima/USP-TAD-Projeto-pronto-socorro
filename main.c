@@ -98,7 +98,7 @@ void registrar_paciente(LISTA* registro, FILA* fila) {
     char nome[TAM_NOME];
     int ID;
     printf("\nDigite o nome do paciente (maximo de 100 caracteres): ");
-    scanf(" %[^\n]s", nome);
+    scanf(" %[^\n\r]s", nome);
     printf("Digite o ID do paciente (numero inteiro): ");
     scanf(" %d", &ID);
     
@@ -237,7 +237,7 @@ void desfazer_procedimento_paciente() {
 
     const char* descricao = procedimento_obter_descricao(procedimento);
     printf("Procedimento removido: %s\n", (descricao != NULL) ? descricao : "(descricao indisponivel)");
-    free(procedimento);
+    free(procedimento); // não é pra dar pra poder fazerisso, rompe o sentido do TAD :( ou então entendi errado :)
 }
 
 void chamar_paciente_atendimento() {
@@ -284,7 +284,7 @@ void sair(){
         if (SAVE(registro, fila)) {
             printf("Dados salvos com sucesso.\n");
         } else {
-            printf("Falha ao salvar os dados. Verifique o armazenamento.\n");
+            printf("Falha ao salvar os dados. Verifique o armazenamento.\n"); // isso faz os dados serem perdidos pra sempre ou faz a pessoa tentar de novo?
         }
         lista_destruir(registro);
         registro = NULL;
