@@ -2,7 +2,7 @@
 
 Alunos:
 João Pedro Boaretto, nUSP:  16876293
-Lorena Borges, nUSP: 16883652
+Lorena Moreira Borges, nUSP: 16883652
 Sofia Albuquerque Lima, nUSP: 16900810
 
 */
